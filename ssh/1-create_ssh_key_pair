@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# private key must be school
+#bits = 4096
+#passphrase betty
+ssh-keygen -f school -b 4096 -N betty
+
