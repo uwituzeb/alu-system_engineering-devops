@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-#installs nginx and redirects to holberton school string
-sudo apt-get -y update
-sudo apt-get -y install nginx
-echo "Holberton School" | sudo tee /var/www/html/index.html
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/Ngum12 permanent;"
-sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
-sudo service nginx restart
