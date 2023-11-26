@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 #install nginx and redirects to holberton school string
-sudo apt-get update
-sudo apt-get install -y nginx
-file1=/usr/share/nginx/html/index.html
-sudo bash -c "echo 'Holberton School ftw!' > $file1"
-service nginx start
+apt-get update
+apt-get install -y nginx
+
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Holberton School" > /etc/nginx/html/index.html
+printf %s "server {
+	listen	80 default_server;
+	listen	[::]:80 default_server;
+	root	/etc/nginx/html;
+	index	index.html index.htm;
+}
+" > /etc/nginx/sites-available/default
+
+service nginx restart
