@@ -1,20 +1,15 @@
-#
-# rules.before
-#
-# Rules that should be run before the ufw command line added rules. Custom
-# rules should be added to one of these chains:
-#   ufw-before-input
-#   ufw-before-output
-#   ufw-before-forward
-#
-*nat
-:PREROUTING ACCEPT [0:0]
--A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
-COMMIT
-# Don't delete these required lines, otherwise there will be errors
-*filter
-:ufw-before-input - [0:0]
-:ufw-before-output - [0:0]
-:ufw-before-forward - [0:0]
-:ufw-not-local - [0:0]
-# End required lines
+#!/usr/bin/env bash
+# port forwarding
+
+# Allow incoming traffic on port 8080
+sudo ufw allow 8080/tcp
+
+# Redirect traffic from port 8080 to port 80
+sudo iptables -t nat -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+
+# Save the iptables rules
+sudo mkdir -p /etc/iptables/
+sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
+
+# Reload UFW to apply the changes
+sudo ufw reload
